@@ -1,0 +1,39 @@
+{
+  "name": "eleventy-plugin-phosphoricons",
+  "version": "1.0.0",
+  "description": "A flexible icon family for interfaces, diagrams, presentations — whatever, really.",
+  "main": ".eleventy.js",
+  "scripts": {
+    "update:icons.json": "node ./fetchIconsNames.js",
+    "build": "cd demo/; npx eleventy",
+    "dev": "cd demo/; npx eleventy --serve",
+    "test": "cd demo/; npx eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reatlat/eleventy-plugin-phosphoricons.git"
+  },
+  "keywords": [
+    "eleventy",
+    "eleventy-plugin",
+    "11ty",
+    "phosphor",
+    "icons",
+    "phosphor-icons"
+  ],
+  "author": {
+    "name": "Alex Zappa",
+    "email": "alex@zappa.dev",
+    "url": "https://alex.zappa.dev/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reatlat/eleventy-plugin-phosphoricons/issues"
+  },
+  "homepage": "https://github.com/reatlat/eleventy-plugin-phosphoricons#readme",
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@phosphor-icons/core": "^2.0.2",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
