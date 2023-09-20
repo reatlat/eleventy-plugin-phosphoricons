@@ -5,9 +5,9 @@
   "main": ".eleventy.js",
   "scripts": {
     "update:icons.json": "node ./fetchIconsNames.js",
-    "build": "cd demo/; npx eleventy",
-    "dev": "cd demo/; npx eleventy --serve",
-    "test": "cd demo/; npx eleventy"
+    "build": "npx eleventy --config=./demo/.eleventy.js --input=./demo --output=./_site",
+    "dev": "npx eleventy --serve --config=./demo/.eleventy.js --input=./demo --output=./_site",
+    "test": "npx eleventy --config=./demo/.eleventy.js --input=./demo --output=./_site "
   },
   "repository": {
     "type": "git",

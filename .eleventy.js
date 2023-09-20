@@ -11,6 +11,11 @@ module.exports = (eleventyConfig, attributes = {}) => {
 
     const globalAttributes = { ...defaultAttributes, ...attributes };
 
+    const phosphorCorePath = path.join(
+        path.dirname(require.resolve("@phosphor-icons/core")),
+        "../assets"
+    );
+
     const shortcodeHandler = (iconName, iconType = 'regular', attributes = {}) => {
         if (!iconName) {
             throw new Error(
@@ -33,7 +38,10 @@ module.exports = (eleventyConfig, attributes = {}) => {
         }
 
         // safetly get SVG content
-        const svgContent = fs.readFileSync(path.join(__dirname, `./node_modules/@phosphor-icons/core/assets/${iconType}/${fileName}.svg`), 'utf8');
+        const svgContent = fs.readFileSync(
+            path.join(phosphorCorePath, `./${iconType}/${fileName}.svg`),
+            "utf8"
+        );
 
         const $ = cheerio.load(svgContent, {
             xmlMode: true
