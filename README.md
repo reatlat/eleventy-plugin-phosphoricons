@@ -73,7 +73,7 @@ into HTML code like this:
 {% phicon "phosphor-logo", "duotone", { 
     style: "color:red" 
     size: 64,
-    class: "phicon bg-blue",
+    class: "phicon bg-blue"
 } %}
 ```
 
