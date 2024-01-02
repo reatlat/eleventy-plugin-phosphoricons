@@ -33,7 +33,7 @@
   "homepage": "https://github.com/reatlat/eleventy-plugin-phosphoricons#readme",
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
-    "@phosphor-icons/core": "^2.0.2",
+    "@phosphor-icons/core": "^2.0.3",
     "cheerio": "^1.0.0-rc.12"
   }
 }
