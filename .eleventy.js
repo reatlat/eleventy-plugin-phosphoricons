@@ -64,6 +64,9 @@ module.exports = (eleventyConfig, attributes = {}) => {
             $(`svg`).attr(`fill`, attributes.fill);
         }
 
+        // Remove the icon from the accessibility tree
+        $(`svg`).attr(`aria-hidden`, 'true');
+
         return $.html().trim();
     };
 
