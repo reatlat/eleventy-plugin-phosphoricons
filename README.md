@@ -14,6 +14,26 @@ Install the plugin from [npm](https://www.npmjs.com/package/eleventy-plugin-phos
 npm install eleventy-plugin-phosphoricons --save-dev
 ```
 
+## Configuration
+
+- `class` - The class attribute to be added to the svg element. Default: `phicon`
+- `style` - The style attribute to be added to the svg element. Default: `undefined`
+- `size` - The width and height attribute to be added to the svg element. Default: `256`
+- `fill` - The fill attribute to be added to the svg element. Default: `currentColor`
+- `width` - The width attribute to be added to the img element. Default: taken from the `size` attribute
+- `height` - The height attribute to be added to the img element. Default: taken from the `size` attribute
+- `render` - The render method allows you to render icon as inline svg or image. Default: `svg`, other options: `image` or `img`
+- `transformClass` - A CSS class that you want to map using a callback function `transformFill`. Default: `false`
+- `transformFill` - A callback function to transform the fill attribute, based on `transformClass` attribute. Default: `undefined`
+
+If `render` is set to `image` or `img`, the following attributes can be used:
+- `alt` - The alt attribute to be added to the img element. Default: `altPrefix + iconName`
+- `altPrefix` - The alt attribute prefix to be added to the img element. Default: `icon`
+- `loading` - The loading attribute to be added to the img element. Default: `lazy`
+- `decoding` - The decoding attribute to be added to the img element. Default: `async`
+- `eleventyIgnore` - The eleventyIgnore attribute to be added to the img element to prevent `@11ty/eleventy-img` plugin from processing the image. Default: `true`
+
+## Usage
 
 Add it to your [Eleventy Config](https://www.11ty.dev/docs/config/) file:
 
@@ -26,7 +46,7 @@ module.exports = function (eleventyConfig) {
 ```
 
 
-Advanced usage:
+### Advanced usage:
 
 ```js
 const eleventyPluginPhosphoricons = require('eleventy-plugin-phosphoricons');
@@ -41,22 +61,31 @@ module.exports = function (eleventyConfig) {
 };
 ```
 
-## Configuration
+#### Using `transformFill` callback function
 
-- `class` - The class attribute to be added to the svg element. Default: `phicon`
-- `style` - The style attribute to be added to the svg element. Default: `undefined`
-- `size` - The width and height attribute to be added to the svg element. Default: `256`
-- `fill` - The fill attribute to be added to the svg element. Default: `currentColor`
-- `width` - The width attribute to be added to the img element. Default: taken from the `size` attribute
-- `height` - The height attribute to be added to the img element. Default: taken from the `size` attribute
-- `render` - The render method allows you to render icon as inline svg or image. Default: `svg`, other options: `image` or `img`
+May be useful if you using a CSS framework like Tailwind CSS, Bootstrap, etc. and you want to map the fill attribute to the text color classes.
 
-If `render` is set to `image` or `img`, the following attributes can be used:
-- `alt` - The alt attribute to be added to the img element. Default: `altPrefix + iconName`
-- `altPrefix` - The alt attribute prefix to be added to the img element. Default: `icon`
-- `loading` - The loading attribute to be added to the img element. Default: `lazy`
-- `decoding` - The decoding attribute to be added to the img element. Default: `async`
-- `eleventyIgnore` - The eleventyIgnore attribute to be added to the img element to prevent `@11ty/eleventy-img` plugin from processing the image. Default: `true`
+TailwindCSS usage example:
+
+```js
+const eleventyPluginPhosphoricons = require('eleventy-plugin-phosphoricons');
+const resolveConfig = require('tailwindcss/resolveConfig.js')
+const tailwindConfig = require('tailwind.config.js')
+
+const fullConfig = resolveConfig(tailwindConfig)
+module.exports = function (eleventyConfig) {
+    eleventyConfig.addPlugin(eleventyPluginPhosphoricons, {
+        class: "phicon",
+        style: "vertical-align: middle;",
+        size: 32,
+        fill: "currentColor",
+        transformFill: (color) => {
+            const [baseColor, shade] = color.replace('text-', '').split('-');
+            return shade ? fullConfig.theme.colors[baseColor][shade] : fullConfig.theme.colors[baseColor]['DEFAULT'];
+        }
+    });
+};
+```
 
 ## What does it do?
 The plugin turns [11ty shortcodes](https://www.11ty.dev/docs/shortcodes/) like this:
