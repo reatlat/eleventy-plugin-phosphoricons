@@ -6,7 +6,11 @@ const path = require('path');
 module.exports = (eleventyConfig, attributes = {}) => {
 
     const defaultAttributes = {
-        class: `phicon`
+        class: `phicon`,
+        render: `svg`,
+        loading: `lazy`,
+        decoding: `async`,
+        altSuffix: `icon`,
     }
 
     const globalAttributes = { ...defaultAttributes, ...attributes };
@@ -25,6 +29,9 @@ module.exports = (eleventyConfig, attributes = {}) => {
 
         attributes = { ...globalAttributes, ...attributes };
 
+        attributes.render = attributes.render.toLowerCase();
+
+        console.log(`attributes`,attributes);
         if (!['regular', 'thin', 'light', 'bold', 'fill', 'duotone'].includes(iconType)) {
             iconType = 'regular';
         }
@@ -47,27 +54,56 @@ module.exports = (eleventyConfig, attributes = {}) => {
             xmlMode: true
         });
 
-        if (attributes.class) {
-            $(`svg`).addClass(attributes.class);
+        const svgIcon = $(`svg`);
+
+        if (attributes.render === 'svg') {
+
+            if (attributes.class) {
+                svgIcon.addClass(attributes.class);
+            }
+
+            if (attributes.style) {
+                svgIcon.attr('style', attributes.style);
+            }
+
+            // Remove the icon from the accessibility tree
+            svgIcon.attr(`aria-hidden`, 'true');
         }
 
         if (attributes.size) {
-            $(`svg`).attr(`width`, attributes.size);
-            $(`svg`).attr(`height`, attributes.size);
-        }
-
-        if (attributes.style) {
-            $(`svg`).attr(`style`, attributes.style);
+            svgIcon.attr({ width: attributes.size, height: attributes.size });
         }
 
         if (attributes.fill) {
-            $(`svg`).attr(`fill`, attributes.fill);
+            svgIcon.attr('fill', attributes.fill);
         }
 
-        // Remove the icon from the accessibility tree
-        $(`svg`).attr(`aria-hidden`, 'true');
+        let iconString = $.html();
 
-        return $.html().trim();
+        if (['image', 'img'].includes(attributes.render)) {
+            console.log('image');
+            let imageAttributes = {
+                src: `data:image/svg+xml,${encodeURIComponent(iconString)}`,
+                width: attributes.size,
+                height: attributes.size,
+                loading: attributes.loading,
+                decoding: attributes.decoding,
+                alt: attributes.alt || [attributes.altSuffix, iconName].join(' '),
+                "aria-hidden": true,
+            };
+
+            if (attributes.style) {
+                imageAttributes.style = attributes.style;
+            }
+
+            if (attributes.class) {
+                imageAttributes.class = attributes.class;
+            }
+
+            iconString = `<img ${Object.keys(imageAttributes).map(key => `${key}="${imageAttributes[key]}"`).join(' ')} />`;
+        }
+
+        return iconString.trim();
     };
 
     eleventyConfig.addShortcode("phosphor", shortcodeHandler);
