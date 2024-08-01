@@ -6,3 +6,4 @@ _site/
 .idea
 .github/
 fetchIconsNames.js
+netlify.toml
