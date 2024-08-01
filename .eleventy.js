@@ -32,7 +32,6 @@ module.exports = (eleventyConfig, attributes = {}) => {
 
         attributes.render = attributes.render.toLowerCase();
 
-        console.log(`attributes`,attributes);
         if (!['regular', 'thin', 'light', 'bold', 'fill', 'duotone'].includes(iconType)) {
             iconType = 'regular';
         }
