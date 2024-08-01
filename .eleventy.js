@@ -10,7 +10,8 @@ module.exports = (eleventyConfig, attributes = {}) => {
         render: `svg`,
         loading: `lazy`,
         decoding: `async`,
-        altSuffix: `icon`,
+        altPrefix: `icon`,
+        eleventyIgnore: true,
     }
 
     const globalAttributes = { ...defaultAttributes, ...attributes };
@@ -44,7 +45,13 @@ module.exports = (eleventyConfig, attributes = {}) => {
             );
         }
 
-        // safetly get SVG content
+        // warning if render not supported
+        if (!['svg', 'image', 'img'].includes(attributes.render)) {
+            attributes.render = 'svg';
+            console.warn(`[eleventy-plugin-phosphoricons] the render attribute must be one of the following: svg, image, img. Defaulting to svg.`);
+        }
+
+        // safety get SVG content
         const svgContent = fs.readFileSync(
             path.join(phosphorCorePath, `./${iconType}/${fileName}.svg`),
             "utf8"
@@ -62,12 +69,12 @@ module.exports = (eleventyConfig, attributes = {}) => {
                 svgIcon.addClass(attributes.class);
             }
 
-            if (attributes.style) {
-                svgIcon.attr('style', attributes.style);
-            }
-
             // Remove the icon from the accessibility tree
             svgIcon.attr(`aria-hidden`, 'true');
+        }
+
+        if (attributes.style) {
+            svgIcon.attr('style', attributes.style);
         }
 
         if (attributes.size) {
@@ -81,16 +88,21 @@ module.exports = (eleventyConfig, attributes = {}) => {
         let iconString = $.html();
 
         if (['image', 'img'].includes(attributes.render)) {
-            console.log('image');
+            let defaultAltText = attributes.altPrefix ? [attributes.altPrefix, iconName] : [iconName];
+
             let imageAttributes = {
                 src: `data:image/svg+xml,${encodeURIComponent(iconString)}`,
                 width: attributes.size,
                 height: attributes.size,
                 loading: attributes.loading,
                 decoding: attributes.decoding,
-                alt: attributes.alt || [attributes.altSuffix, iconName].join(' '),
+                alt: attributes.alt || defaultAltText.join(' '),
                 "aria-hidden": true,
             };
+
+            if (attributes.eleventyIgnore) {
+                imageAttributes["eleventy:ignore"] = true;
+            }
 
             if (attributes.style) {
                 imageAttributes.style = attributes.style;
