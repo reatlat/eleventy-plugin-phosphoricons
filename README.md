@@ -5,6 +5,8 @@
 
 An Eleventy [shortcode](https://www.11ty.dev/docs/shortcodes/), allows [Phosphor icons](https://phosphoricons.com/) to be embedded as inline svg or render as an image in your Eleventy project.
 
+Demo: [https://eleventy-plugin-phosphoricons.netlify.app/](https://eleventy-plugin-phosphoricons.netlify.app/)
+
 ## Installation
 Install the plugin from [npm](https://www.npmjs.com/package/eleventy-plugin-phosphoricons):
 
@@ -47,7 +49,7 @@ module.exports = function (eleventyConfig) {
 - `fill` - The fill attribute to be added to the svg element. Default: `currentColor`
 - `width` - The width attribute to be added to the img element. Default: taken from the `size` attribute
 - `height` - The height attribute to be added to the img element. Default: taken from the `size` attribute
-- `render` - The render attribute to be added to the svg element. Default: `svg`, other options: `image` or `img`
+- `render` - The render method allows you to render icon as inline svg or image. Default: `svg`, other options: `image` or `img`
 
 If `render` is set to `image` or `img`, the following attributes can be used:
 - `alt` - The alt attribute to be added to the img element. Default: `altPrefix + iconName`

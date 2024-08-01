@@ -79,7 +79,7 @@ module.exports = function (eleventyConfig) {
         <li><code>fill</code> - The fill attribute to be added to the svg element.<br/><small>Default: <code>currentColor</code></small></li>
         <li><code>width</code> - The width attribute to be added to the img element.<br/><small> taken from the <code>size</code> attribute</small></li>
         <li><code>height</code> - The height attribute to be added to the img element.<br/><small> taken from the <code>size</code> attribute</small></li>
-        <li><code>render</code> - The render attribute to be added to the svg element.<br/><small>Default: <code>svg</code>, other options: <code>image</code> or <code>img</code></small></li>
+        <li><code>render</code> - The render method allows you to render icon as inline svg or image.<br/><small>Default: <code>svg</code>, other options: <code>image</code> or <code>img</code></small></li>
     </ul>
     <h3><small>If <code>render</code> is set to <code>image</code> or <code>img</code>, the following attributes can be used:</small></h3>
     <ul>
@@ -112,6 +112,12 @@ module.exports = function (eleventyConfig) {
     {% phicon "phosphor-logo", "duotone", { style: "color:red", render: 'image' } %}
     </div>
     <p>Image example contains 7 child elements.</p>
+    <h3>Why render icons as an image?</h3>
+    <p>
+        Rendering icons as images can help to avoid an excessive DOM size.
+        This can be useful when you have a lot of icons on a page, or when you want to avoid the overhead of rendering SVGs in the DOM.
+    </p>
+    <p><em<b>>Note:</b> rendered icons as image, can't get the same color as the text color.</em></p>
     <h2>License</h2>
     <p><a href="https://github.com/reatlat/eleventy-plugin-phosphoricons/blob/main/LICENSE">MIT License</a></p>
     <hr>
