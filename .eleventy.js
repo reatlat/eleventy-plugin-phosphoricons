@@ -12,6 +12,8 @@ module.exports = (eleventyConfig, attributes = {}) => {
         decoding: `async`,
         altPrefix: `icon`,
         eleventyIgnore: true,
+        transformClass: false,
+        transformFill: undefined
     }
 
     const globalAttributes = { ...defaultAttributes, ...attributes };
@@ -48,6 +50,15 @@ module.exports = (eleventyConfig, attributes = {}) => {
         if (!['svg', 'image', 'img'].includes(attributes.render)) {
             attributes.render = 'svg';
             console.warn(`[eleventy-plugin-phosphoricons] the render attribute must be one of the following: svg, image, img. Defaulting to svg.`);
+        }
+
+        if (typeof attributes.transformFill === 'function' && attributes.transformClass) {
+            try {
+                attributes.fill = attributes.transformFill(attributes.transformClass);
+            } catch (error) {
+                console.warn(`[eleventy-plugin-phosphoricons] the transformFill function failed: ${error}`);
+                console.warn(`[eleventy-plugin-phosphoricons] the attributes.transformClass will be ignored`);
+            }
         }
 
         // safety get SVG content
