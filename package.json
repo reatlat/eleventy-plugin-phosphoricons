@@ -1,6 +1,6 @@
 {
   "name": "eleventy-plugin-phosphoricons",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A flexible icon family for interfaces, diagrams, presentations — whatever, really.",
   "main": ".eleventy.js",
   "scripts": {
@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/reatlat/eleventy-plugin-phosphoricons/issues"
   },
-  "homepage": "https://github.com/reatlat/eleventy-plugin-phosphoricons#readme",
+  "homepage": "https://eleventy-plugin-phosphoricons.netlify.app/",
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
     "@phosphor-icons/core": "^2.1.1",
