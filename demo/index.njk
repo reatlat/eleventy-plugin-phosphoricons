@@ -4,55 +4,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>11ty Plugin Phosphor Icons - Demo</title>
-    <link rel="stylesheet"
-          href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
-          integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
-          crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>11ty Plugin Phosphor Icons</title>
+    <meta name="description" content="A flexible icon family for interfaces, diagrams, presentations — whatever, really. Each icon is designed on a 512x512 grid with an emphasis on simplicity, consistency, and flexibility.">
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
     <style>
-        body {
-            background: #fafafa;
+        .github-fork-ribbon:before { background-color: #333; }
+        .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::before,
+        .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::after { content: none !important; }
+        .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+            background-color: #f5f2f0;
+            padding: 0.05em 0.4em;
+            line-height: 1;
+            font-size: inherit !important;
+            border-radius: 0.2em;
+            border: 1px solid #e1e1e1;
+            display: inline !important;
+            font-family: 'Fira Code', 'Courier New', monospace;
         }
-        .page-wrapper {
-            background: #fff;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.15);
-        }
-        .phicon {
-            border-radius: 5px;
-            padding: 30px;
-            margin: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.15);
+        .prose {
+            --tw-prose-body: #111 !important;
         }
     </style>
 </head>
-<body>
-    <div class="page page-wrapper">
+<body class="py-14 px-8">
+<script>let test = '</body>';</script>
+<div class="prose mx-auto">
+    <h1 class="!mb-0">11ty Plugin: Phosphor Icons</h1>
+    <p class="mt-4 flex flex-wrap gap-2">
+        <a href="https://npmjs.com/package/eleventy-plugin-phosphoricons">
+            <span class="sr-only">npm</span>
+            <img class="inline-block !my-0" src="https://img.shields.io/npm/v/eleventy-plugin-phosphoricons.svg" alt="npm">
+        </a>
+        <a href="https://npmjs.com/package/eleventy-plugin-phosphoricons">
+            <span class="sr-only">npm</span>
+            <img class="inline-block !my-0" src="https://img.shields.io/npm/dt/eleventy-plugin-phosphoricons.svg" alt="npm">
+        </a>
+        <a href="https://npmjs.com/package/eleventy-plugin-phosphoricons">
+            <span class="sr-only">license</span>
+            <img class="inline-block !my-0" src="https://img.shields.io/npm/l/eleventy-plugin-phosphoricons.svg" alt="license">
+        </a>
+    </p>
+    <p><a href="https://www.npmjs.com/package/eleventy-plugin-phosphoricons">This plugin</a> adds a shortcode to your Eleventy project to easily include icons from the <a href="https://phosphoricons.com">Phosphor Icons</a> collection.</p>
+    <h2>Installation</h2>
+    <p>Install the plugin from npm:</p>
+    <pre><code>npm install eleventy-plugin-phosphoricons --save-dev</code></pre>
+    <h2>Usage</h2>
+    <p>Add it to your <a href="https://www.11ty.dev/docs/config/">Eleventy Config</a> config file:</p>
+<pre><code>const eleventyPluginPhosphoricons = require('eleventy-plugin-phosphoricons');
 
-        <div class="content-wrapper">
-            <div class="content">
-                <div class="pure-g">
-                    <div class="pure-u-1-1">
-                        <h1>Phosphor icons</h1>
-                        <p>A flexible icon family for interfaces, diagrams, presentations — whatever, really. Each icon is designed on a 512x512 grid with an emphasis on simplicity, consistency, and flexibility.</p>
-                    </div>
+module.exports = function (eleventyConfig) {
+    eleventyConfig.addPlugin(eleventyPluginPhosphoricons);
+};
+</code></pre>
+    <p>Advanced usage:</p>
+<pre><code>const eleventyPluginPhosphoricons = require('eleventy-plugin-phosphoricons');
 
-                    <div class="pure-u-1-1">
-                        {% phicon "phosphor-logo", "duotone" %}
-                        {% phicon "phosphor-logo", "thin" %}
-                        {% phicon "phosphor-logo", "light" %}
-                        {% phicon "phosphor-logo" %}
-                        {% phicon "phosphor-logo", "bold" %}
-                        {% phicon "phosphor-logo", "fill" %}
-                        {% phicon "phosphor-logo", "duotone", { style: "color:red" } %}
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
+module.exports = function (eleventyConfig) {
+    eleventyConfig.addPlugin(eleventyPluginPhosphoricons, {
+        class: "phicon",
+        style: "vertical-align: middle;",
+        size: 32,
+        fill: "currentColor"
+    });
+};
+</code></pre>
+    <h2>Configuration</h2>
+    <ul>
+        <li><code>class</code> - The class attribute to be added to the svg element.<br/><small>Default: <code>phicon</code></small></li>
+        <li><code>style</code> - The style attribute to be added to the svg element.<br/><small>Default: <code>undefined</code></small></li>
+        <li><code>size</code> - The width and height attribute to be added to the svg element.<br/><small>Default: <code>256</code></small></li>
+        <li><code>fill</code> - The fill attribute to be added to the svg element.<br/><small>Default: <code>currentColor</code></small></li>
+        <li><code>width</code> - The width attribute to be added to the img element.<br/><small> taken from the <code>size</code> attribute</small></li>
+        <li><code>height</code> - The height attribute to be added to the img element.<br/><small> taken from the <code>size</code> attribute</small></li>
+        <li><code>render</code> - The render attribute to be added to the svg element.<br/><small>Default: <code>svg</code>, other options: <code>image</code> or <code>img</code></small></li>
+    </ul>
+    <h3><small>If <code>render</code> is set to <code>image</code> or <code>img</code>, the following attributes can be used:</small></h3>
+    <ul>
+        <li><code>alt</code> - The alt attribute to be added to the img element.<br/><small>Default: <code>altPrefix + iconName</code></small></li>
+        <li><code>altPrefix</code> - The alt attribute prefix to be added to the img element.<br/><small>Default: <code>icon</code></small></li>
+        <li><code>loading</code> - The loading attribute to be added to the img element.<br/><small>Default: <code>lazy</code></small></li>
+        <li><code>decoding</code> - The decoding attribute to be added to the img element.<br/><small>Default: <code>async</code></small></li>
+        <li><code>eleventyIgnore</code> - The eleventyIgnore attribute to be added to the img element to prevent <code>@11ty/eleventy-img</code> plugin from processing the image.<br/><small>Default: <code>true</code></small></li>
+    </ul>
+    <h2>Demo</h2>
+    <h3>SVG Example</h3>
+    <div class="flex flex-wrap gap-2">
+    {% phicon "phosphor-logo", "duotone" %}
+    {% phicon "phosphor-logo", "thin" %}
+    {% phicon "phosphor-logo", "light" %}
+    {% phicon "phosphor-logo" %}
+    {% phicon "phosphor-logo", "bold" %}
+    {% phicon "phosphor-logo", "fill" %}
+    {% phicon "phosphor-logo", "duotone", { style: "color:red" } %}
     </div>
+    <p>SVG example contains 16 child elements.
+    <h3>Image Example</h3>
+    <div id="images" class="flex flex-wrap gap-2 [&_img]:m-0">
+    {% phicon "phosphor-logo", "duotone", { render: 'image' } %}
+    {% phicon "phosphor-logo", "thin", { render: 'image' } %}
+    {% phicon "phosphor-logo", "light", { render: 'image' } %}
+    {% phicon "phosphor-logo", "", { render: 'image' } %}
+    {% phicon "phosphor-logo", "bold", { render: 'image' } %}
+    {% phicon "phosphor-logo", "fill", { render: 'image' } %}
+    {% phicon "phosphor-logo", "duotone", { style: "color:red", render: 'image' } %}
+    </div>
+    <p>Image example contains 7 child elements.</p>
+    <h2>License</h2>
+    <p><a href="https://github.com/reatlat/eleventy-plugin-phosphoricons/blob/main/LICENSE">MIT License</a></p>
+    <hr>
+    <footer>
+        <p>Built using <a href="https://11ty.dev?utm_source=eleventy-plugin-phosphoricons">{{ eleventy.generator }}</a>.</p>
+        <p>Crafted by <a href="https://alex.zappa.dev?utm_source=eleventy-plugin-phosphoricons">Alex Zappa</a>.</p>
+    </footer>
+</div>
+<a class="github-fork-ribbon fixed" href="https://github.com/reatlat/eleventy-plugin-phosphoricons/" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+
 </body>
 </html>
