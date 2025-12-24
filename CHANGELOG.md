@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.0] - 2024-12-24
+## [2.0.0] - 2025-12-24
 
 ### Changed
 - Replaced `cheerio` with `linkedom` for lighter dependency footprint
