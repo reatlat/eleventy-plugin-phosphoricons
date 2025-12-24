@@ -1,6 +1,6 @@
-const eleventyPluginPhosphoricons = require("../.eleventy.js");
+import eleventyPluginPhosphoricons from "../.eleventy.js";
 
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
     eleventyConfig.addPlugin(eleventyPluginPhosphoricons, {
         size: 40,
         transformFill: (fill) => {

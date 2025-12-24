@@ -1,14 +1,18 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { createRequire } from 'module';
-import { parseHTML } from 'linkedom';
+// CJS wrapper for backwards compatibility
+// For new projects, use ESM: import plugin from 'eleventy-plugin-phosphoricons'
 
-const require = createRequire(import.meta.url);
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const fs = require('fs');
+const path = require('path');
+const { parseHTML } = require('linkedom');
+
 const phosphorIcons = JSON.parse(fs.readFileSync(path.join(__dirname, 'icons.json'), 'utf8'));
 
-export default (eleventyConfig, attributes = {}) => {
+const phosphorCorePath = path.join(
+    path.dirname(require.resolve("@phosphor-icons/core")),
+    "../assets"
+);
+
+module.exports = (eleventyConfig, attributes = {}) => {
 
     const defaultAttributes = {
         class: `phicon`,
@@ -23,11 +27,6 @@ export default (eleventyConfig, attributes = {}) => {
 
     const globalAttributes = { ...defaultAttributes, ...attributes };
 
-    const phosphorCorePath = path.join(
-        path.dirname(require.resolve("@phosphor-icons/core")),
-        "../assets"
-    );
-
     const shortcodeHandler = (iconName, iconType = 'regular', attributesOrClasses = {}) => {
         if (!iconName) {
             throw new Error(
@@ -38,11 +37,9 @@ export default (eleventyConfig, attributes = {}) => {
         // Handle 3rd arg: string = extra classes, object = attributes
         let attributes = {};
         if (typeof attributesOrClasses === 'string' && attributesOrClasses.trim()) {
-            // Liquid-style: {% phicon "icon" "type" "extra-classes" %}
             const defaultClass = globalAttributes.class || '';
             attributes.class = defaultClass ? `${defaultClass} ${attributesOrClasses}` : attributesOrClasses;
         } else if (typeof attributesOrClasses === 'object' && attributesOrClasses !== null) {
-            // Nunjucks-style: {% phicon "icon", "type", { size: 64 } %}
             attributes = attributesOrClasses;
         }
 
@@ -62,7 +59,6 @@ export default (eleventyConfig, attributes = {}) => {
             );
         }
 
-        // warning if render not supported
         if (!['svg', 'image', 'img'].includes(attributes.render)) {
             attributes.render = 'svg';
             console.warn(`[eleventy-plugin-phosphoricons] the render attribute must be one of the following: svg, image, img. Defaulting to svg.`);
@@ -77,7 +73,6 @@ export default (eleventyConfig, attributes = {}) => {
             }
         }
 
-        // safety get SVG content
         const svgContent = fs.readFileSync(
             path.join(phosphorCorePath, `./${iconType}/${fileName}.svg`),
             "utf8"
@@ -87,12 +82,9 @@ export default (eleventyConfig, attributes = {}) => {
         const svgIcon = document.querySelector('svg');
 
         if (attributes.render === 'svg') {
-
             if (attributes.class) {
                 svgIcon.setAttribute('class', attributes.class);
             }
-
-            // Remove the icon from the accessibility tree
             svgIcon.setAttribute('aria-hidden', 'true');
         }
 

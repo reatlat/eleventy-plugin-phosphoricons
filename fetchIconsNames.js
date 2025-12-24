@@ -1,6 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const iconsPath = path.join(__dirname, './node_modules/@phosphor-icons/core/assets');
 
 const icons = {
@@ -11,7 +13,6 @@ const icons = {
     fill: [],
     duotone: []
 };
-
 
 const readIcons = (type) => {
     fs.readdirSync(path.join(iconsPath, type)).forEach(file => {
@@ -27,7 +28,6 @@ readIcons('bold');
 readIcons('fill');
 readIcons('duotone');
 
-fs.writeFileSync(path.join(__dirname, '/icons.json'), JSON.stringify(icons, null, 2));
-
+fs.writeFileSync(path.join(__dirname, 'icons.json'), JSON.stringify(icons, null, 2));
 
 console.log('icons.json created');

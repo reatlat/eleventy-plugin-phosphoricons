@@ -7,6 +7,10 @@ An Eleventy [shortcode](https://www.11ty.dev/docs/shortcodes/), allows [Phosphor
 
 Demo: [https://eleventy-plugin-phosphoricons.netlify.app/](https://eleventy-plugin-phosphoricons.netlify.app/)
 
+## Requirements
+
+- Eleventy 2.0 or higher (CJS) / Eleventy 3.0 or higher (ESM)
+
 ## Installation
 Install the plugin from [npm](https://www.npmjs.com/package/eleventy-plugin-phosphoricons):
 
@@ -37,6 +41,18 @@ If `render` is set to `image` or `img`, the following attributes can be used:
 
 Add it to your [Eleventy Config](https://www.11ty.dev/docs/config/) file:
 
+**ESM (Eleventy 3.x):**
+
+```js
+import eleventyPluginPhosphoricons from 'eleventy-plugin-phosphoricons';
+
+export default function (eleventyConfig) {
+    eleventyConfig.addPlugin(eleventyPluginPhosphoricons);
+};
+```
+
+**CommonJS (Eleventy 2.x):**
+
 ```js
 const eleventyPluginPhosphoricons = require('eleventy-plugin-phosphoricons');
 
@@ -45,13 +61,12 @@ module.exports = function (eleventyConfig) {
 };
 ```
 
-
 ### Advanced usage:
 
 ```js
-const eleventyPluginPhosphoricons = require('eleventy-plugin-phosphoricons');
+import eleventyPluginPhosphoricons from 'eleventy-plugin-phosphoricons';
 
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
     eleventyConfig.addPlugin(eleventyPluginPhosphoricons, {
         class: "phicon",
         style: "vertical-align: middle;",
@@ -68,12 +83,13 @@ May be useful if you using a CSS framework like Tailwind CSS, Bootstrap, etc. an
 TailwindCSS usage example:
 
 ```js
-const eleventyPluginPhosphoricons = require('eleventy-plugin-phosphoricons');
-const resolveConfig = require('tailwindcss/resolveConfig.js')
-const tailwindConfig = require('tailwind.config.js')
+import eleventyPluginPhosphoricons from 'eleventy-plugin-phosphoricons';
+import resolveConfig from 'tailwindcss/resolveConfig.js';
+import tailwindConfig from './tailwind.config.js';
 
-const fullConfig = resolveConfig(tailwindConfig)
-module.exports = function (eleventyConfig) {
+const fullConfig = resolveConfig(tailwindConfig);
+
+export default function (eleventyConfig) {
     eleventyConfig.addPlugin(eleventyPluginPhosphoricons, {
         class: "phicon",
         style: "vertical-align: middle;",
@@ -94,7 +110,7 @@ The plugin turns [11ty shortcodes](https://www.11ty.dev/docs/shortcodes/) like t
 {% phosphor "phosphor-logo" %}
 ```
 
-or 
+or
 
 ```liquid
 {% phicon "phosphor-logo" %}
@@ -103,44 +119,63 @@ or
 into HTML code like this:
 
 ```html
-<svg xmlns="http://www.w3.org/2000/svg" 
-     viewBox="0 0 256 256" 
-     fill="currentColor" 
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 256 256"
+     fill="currentColor"
      class="phicon"
      style="vertical-align: middle;"
      width="32" height="32">
-    <path d="M144,24H64a8,8,0,0,0-8,8V160a80.09,80.09,0,0,0,80,80,8,8,0,0,0,8-8V168a72,72,0,0,0,0-144ZM72,62.54,122.32,152H72Zm56,66.92L77.68,40H128ZM72.51,168H128v55.5A64.14,64.14,0,0,1,72.51,168ZM144,152V40a56,56,0,0,1,0,112Z"></path>
+    <path d="M144,24H64a8,8,0,0,0-8,8V160a80.09..."></path>
 </svg>
 ```
 
-or 
+## Template Usage
 
-```liquid
-{% phicon "phosphor-logo", { render: 'image' } %}
-```
+### Nunjucks
 
-into HTML code like this:
+With object attributes:
 
-```html
-<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' fill='currentColor' style='vertical-align: middle;' width='32' height='32'%3E%3Cpath d='M144,24H64a8,8,0,0,0-8,8V160a80.09,80.09,0,0,0,80,80,8,8,0,0,0,8-8V168a72,72,0,0,0,0-144ZM72,62.54,122.32,152H72Zm56,66.92L77.68,40H128ZM72.51,168H128v55.5A64.14,64.14,0,0,1,72.51,168ZM144,152V40a56,56,0,0,1,0,112Z'%3E%3C/path%3E%3C/svg%3E" 
-     alt="phosphor-logo" 
-     class="phicon" 
-     style="vertical-align: middle;" 
-     width="32" 
-     height="32"
-     alt="icon ">
-```
-
-## Custom Usage
-
-```liquid
-{% phicon "phosphor-logo", "duotone", { 
-    style: "color:red" 
+```nunjucks
+{% phicon "phosphor-logo", "duotone", {
+    style: "color:red",
     size: 64,
     class: "phicon bg-blue"
 } %}
 ```
 
+Render as image:
+
+```nunjucks
+{% phicon "phosphor-logo", "fill", { render: 'image' } %}
+```
+
+### Liquid
+
+With extra CSS classes (string):
+
+```liquid
+{% phicon "star" "fill" "text-yellow-500 hover:scale-110" %}
+```
+
+Basic usage:
+
+```liquid
+{% phicon "phosphor-logo" %}
+{% phicon "phosphor-logo" "duotone" %}
+```
+
+## Icon Types
+
+Six icon variants are available: `regular` (default), `thin`, `light`, `bold`, `fill`, `duotone`
+
+```liquid
+{% phicon "heart" %}
+{% phicon "heart" "thin" %}
+{% phicon "heart" "light" %}
+{% phicon "heart" "bold" %}
+{% phicon "heart" "fill" %}
+{% phicon "heart" "duotone" %}
+```
 
 ## Contributing
 If you notice an issue, feel free to [open an issue](https://github.com/reatlat/eleventy-plugin-phosphoricons/issues).
